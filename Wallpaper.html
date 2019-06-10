@@ -1,0 +1,65 @@
+<style>
+  * {
+    color: #493736;
+  }
+  .stack {
+    font-size: 2.1rem;
+  }
+  .left {
+    font-family: 'Montserrat SemiBold', sans-serif;
+    float: left;
+    text-transform: uppercase;
+  }
+  .right {
+    font-family: 'Montserrat Light', sans-serif;
+    font-size: 2.1rem;
+    float: right;
+    text-align: right;
+  }
+</style>
+
+<body>
+  <div class="stack">
+    <div class="left">
+      <div id="day">FRIDAY</div>
+      <div id="tod">AFTERNOON</div>
+      <div id="weather"></div>
+      <div id="city"></div>
+    </div>
+    <div class="right">
+      <div id="date">11</div>
+      <div id="time">1337</div>
+      <div id="temp"></div>
+      <div id="state"></div>
+    </div>
+  </div>
+</body>
+
+<script src="js/moment.min.js"></script>
+<script>
+  function mainUpdate (type) {
+    updateTime()
+    if (type == "weather") {
+      if (weather.condition) document.getElementById('weather').innerHTML = weather.condition
+      if (weather.temperature) document.getElementById('temp').innerHTML = weather.temperature + '&#176;'
+      if (weather.address.city) document.getElementById('city').innerHTML = weather.address.city
+      if (weather.address.countryISOCode) document.getElementById('state').innerHTML = weather.address.countryISOCode
+    }
+  }
+  
+  function updateTime () {
+    let currentTime = moment()
+    document.getElementById('day').innerHTML = currentTime.format('dddd')
+    document.getElementById('date').innerHTML = currentTime.format('DD')
+    document.getElementById('time').innerHTML = currentTime.format('HH:mm')
+
+    let hh = currentTime.hours()
+    let tod = ''
+    if (hh <= 4 || hh >= 20) tod = 'Night'
+    else if (hh >= 12 && hh <= 16) tod = 'Afternoon'
+    else if (hh >= 17 && hh <= 19) tod = 'Evening'
+    else if (hh >= 5 && hh <= 11) tod = 'Morning'
+    document.getElementById('tod').innerHTML = tod
+  }
+  updateTime()
+</script>
